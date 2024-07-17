@@ -1,0 +1,39 @@
+<div class="custom-carousel">
+  <div
+    class="custom-carousel-navigation-previous"
+    *ngIf="totalSections > 1"
+    (click)="scrollToSection(currentSection - 1)"
+  >
+    <div class="carousel-arrow left-arrow">&#9664;</div>
+  </div>
+
+  <div class="carousel-wrapper">
+    <div
+      *ngFor="let section of sections; let sectionIndex = index"
+      [id]="'section-' + sectionIndex"
+      class="carousel-section"
+    >
+      <div
+        *ngFor="let slide of section; let i = index"
+        class="custom-carousel-item"
+        [ngStyle]="{
+          flex:
+            '0 0 calc((100% / ' +
+            slidesPerView +
+            ') - ' +
+            (16 * (slidesPerView - 1)) / slidesPerView +
+            'px)'
+        }"
+      >
+        Slide {{ i + sectionIndex * slidesPerView + 1 }}
+      </div>
+    </div>
+  </div>
+  <div
+    class="custom-carousel-navigation-next"
+    *ngIf="totalSections > 1"
+    (click)="scrollToSection(currentSection + 1)"
+  >
+    <div class="carousel-arrow right-arrow">&#9654;</div>
+  </div>
+</div>

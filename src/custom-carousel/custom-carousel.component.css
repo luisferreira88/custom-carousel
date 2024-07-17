@@ -1,0 +1,70 @@
+.custom-carousel {
+  display: flex;
+  align-items: center;
+  position: relative;
+  width: calc(100% - 90px);
+  height: 200px;
+  padding: 0 45px;
+  margin-top: 30px;
+}
+
+.carousel-wrapper {
+  display: flex;
+  overflow: hidden;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.carousel-section {
+  display: flex;
+  flex-shrink: 0;
+  width: 100%;
+  scroll-snap-align: start;
+  position: relative;
+  gap: 16px;
+  background-color: blue;
+}
+
+.custom-carousel-item {
+  box-sizing: border-box;
+  background-color: red;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.custom-carousel-navigation-previous {
+  background-color: brown;
+  height: 100%;
+  width: 45px;
+  left: 0;
+  top: 0;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+}
+
+.custom-carousel-navigation-next {
+  background-color: brown;
+  height: 100%;
+  width: 45px;
+  right: 0;
+  top: 0;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+}
+
+.carousel-arrow {
+  font-size: 2rem;
+}
