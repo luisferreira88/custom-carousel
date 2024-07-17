@@ -12,20 +12,20 @@
       [id]="'section-' + sectionIndex"
       class="carousel-section"
     >
-      <div
-        *ngFor="let slide of section; let i = index"
-        class="custom-carousel-item"
-        [ngStyle]="{
-          flex:
-            '0 0 calc((100% / ' +
-            slidesPerView +
-            ') - ' +
-            (16 * (slidesPerView - 1)) / slidesPerView +
-            'px)'
-        }"
-        (mouseenter)="showModal($event, slide)"
-        (mouseleave)="hideModal()"
-      >
+    <div
+    *ngFor="let slide of section; let i = index"
+    class="custom-carousel-item"
+    [ngStyle]="{
+      flex:
+        '0 0 calc((100% / ' +
+        slidesPerView +
+        ') - ' +
+        (16 * (slidesPerView - 1)) / slidesPerView +
+        'px)'
+    }"
+    (mouseenter)="showModal($event, slide)"
+    (mouseleave)="hideModalIfNotHovering($event)"
+  >
         Slide {{ i + sectionIndex * slidesPerView + 1 }}
       </div>
     </div>
@@ -39,12 +39,17 @@
   </button>
 
   <div
-    class="modal"
-    *ngIf="modalVisible"
+    class="modal-wrapper"
     [ngStyle]="{'top.px': modalPosition.top, 'left.px': modalPosition.left}"
+    (mouseenter)="stayVisible()"
+    (mouseleave)="hideModalIfNotHovering($event)"
   >
-    <div class="modal-content">
-      asdasd
+    <div
+      class="modal"
+      [ngClass]="{'show': modalVisible}"
+    >
+    <button>asdasd</button>
+
     </div>
   </div>
 </div>

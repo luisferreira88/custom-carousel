@@ -58,8 +58,19 @@ export class CustomCarouselComponent implements OnInit {
     this.selectedSlide = slide;
   }
 
-  hideModal() {
-    this.modalVisible = false;
-    this.selectedSlide = null;
+  hideModalIfNotHovering(event: MouseEvent) {
+    const target = event.relatedTarget as HTMLElement;
+    if (!target || !target.closest('.modal-wrapper')) {
+      this.modalPosition = {
+        top: 0,
+        left: 0
+      };
+      this.modalVisible = false;
+      this.selectedSlide = null;
+    }
+  }
+
+  stayVisible() {
+    this.modalVisible = true;
   }
 }
