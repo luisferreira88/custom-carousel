@@ -5,7 +5,6 @@
   width: calc(100% - 90px);
   height: 200px;
   padding: 0 45px;
-  margin-top: 30px;
 }
 
 .carousel-wrapper {
@@ -68,3 +67,18 @@
 .carousel-arrow {
   font-size: 2rem;
 }
+
+.modal {
+  position: absolute;
+  z-index: 2;
+  background: white;
+  border: 1px solid #ccc;
+  padding: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transform: translate(-50%, -50%);
+}
+
+.modal-content {
+  /* Style your modal content */
+}
+

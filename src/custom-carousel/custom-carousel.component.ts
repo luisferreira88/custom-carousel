@@ -19,6 +19,10 @@ export class CustomCarouselComponent implements OnInit {
   sections: Slide[][] = [];
   currentSection: number = 0;
 
+  modalVisible: boolean = false;
+  modalPosition: { top: number; left: number } = { top: 0, left: 0 };
+  selectedSlide: Slide | null = null;
+
   ngOnInit() {
     this.totalSlides = this.slides.length;
     this.totalSections = Math.ceil(this.slides.length / this.slidesPerView);
@@ -40,5 +44,22 @@ export class CustomCarouselComponent implements OnInit {
     document.getElementById(`section-${this.currentSection}`)?.scrollIntoView({
       behavior: 'smooth',
     });
+  }
+
+  showModal(event: MouseEvent, slide: Slide) {
+    const target = event.target as HTMLElement;
+    const rect = target.getBoundingClientRect();
+
+    this.modalVisible = true;
+    this.modalPosition = {
+      top: rect.top + rect.height / 2,
+      left: rect.left + rect.width / 2,
+    };
+    this.selectedSlide = slide;
+  }
+
+  hideModal() {
+    this.modalVisible = false;
+    this.selectedSlide = null;
   }
 }

@@ -1,12 +1,11 @@
 <div class="custom-carousel">
-  <div
-    class="custom-carousel-navigation-previous"
+  <button
     *ngIf="totalSections > 1"
+    class="custom-carousel-navigation-previous"
     (click)="scrollToSection(currentSection - 1)"
   >
-    <div class="carousel-arrow left-arrow">&#9664;</div>
-  </div>
-
+    &#9664;
+  </button>
   <div class="carousel-wrapper">
     <div
       *ngFor="let section of sections; let sectionIndex = index"
@@ -24,16 +23,28 @@
             (16 * (slidesPerView - 1)) / slidesPerView +
             'px)'
         }"
+        (mouseenter)="showModal($event, slide)"
+        (mouseleave)="hideModal()"
       >
         Slide {{ i + sectionIndex * slidesPerView + 1 }}
       </div>
     </div>
   </div>
-  <div
-    class="custom-carousel-navigation-next"
+  <button
     *ngIf="totalSections > 1"
+    class="custom-carousel-navigation-next"
     (click)="scrollToSection(currentSection + 1)"
   >
-    <div class="carousel-arrow right-arrow">&#9654;</div>
+    &#9654;
+  </button>
+
+  <div
+    class="modal"
+    *ngIf="modalVisible"
+    [ngStyle]="{'top.px': modalPosition.top, 'left.px': modalPosition.left}"
+  >
+    <div class="modal-content">
+      asdasd
+    </div>
   </div>
 </div>
