@@ -21,10 +21,13 @@
         slidesPerView +
         ') - ' +
         (16 * (slidesPerView - 1)) / slidesPerView +
-        'px)'
+        'px)',
+        background: 'url('+slide.image+')',
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center center'
     }"
     (mouseenter)="showModal($event, slide)"
-    (mouseleave)="hideModalIfNotHovering($event)"
   >
         Slide {{ i + sectionIndex * slidesPerView + 1 }}
       </div>
@@ -37,19 +40,18 @@
   >
     &#9654;
   </button>
+  </div>
 
-  <div
-    class="modal-wrapper"
-    [ngStyle]="{'top.px': modalPosition.top, 'left.px': modalPosition.left}"
-    (mouseenter)="stayVisible()"
-    (mouseleave)="hideModalIfNotHovering($event)"
-  >
-    <div
-      class="modal"
-      [ngClass]="{'show': modalVisible}"
-    >
-    <button>asdasd</button>
 
+<div id="modal-container"     
+[ngStyle]="{'top.px': modalPosition.top, 'left.px': modalPosition.left}"
+(mouseleave)="hideModalIfNotHovering($event)"
+[ngClass]="{'show': modalVisible, 'hide': modalHidden}" >
+  <div class="modal-background">
+    <div class="modal">
+      <div>I'm a Modal</div>
+      <p>Hear me roar.</p>
+      <p>{{selectedSlide? selectedSlide.title  : ''}}</p>
     </div>
   </div>
 </div>

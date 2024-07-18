@@ -2,9 +2,9 @@
   display: flex;
   align-items: center;
   position: relative;
-  width: calc(100% - 90px);
-  height: 200px;
-  padding: 0 45px;
+  width: calc(100%);
+  height: 180px;
+  margin-top: 90px;
 }
 
 .carousel-wrapper {
@@ -24,21 +24,23 @@
   scroll-snap-align: start;
   position: relative;
   gap: 16px;
-  background-color: blue;
+  background-color: transparent;
 }
 
 .custom-carousel-item {
   box-sizing: border-box;
-  background-color: red;
   width: 100%;
   height: 100%;
   cursor: pointer;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
 }
 
 .custom-carousel-navigation-previous {
   background: transparent;
   border: none;
-  background-color: green;
+  background-color: rgba(0, 0, 0, 0.3);
   height: 100%;
   width: 45px;
   left: 0;
@@ -49,12 +51,14 @@
   align-items: center;
   cursor: pointer;
   user-select: none;
+  z-index: 1;
 }
 
 .custom-carousel-navigation-next {
   background: transparent;
   border: none;
-  background-color: green;
+  background-color: rgba(0, 0, 0, 0.3);
+
   height: 100%;
   width: 45px;
   right: 0;
@@ -65,30 +69,45 @@
   align-items: center;
   cursor: pointer;
   user-select: none;
+  z-index: 1;
 }
 
 .carousel-arrow {
   font-size: 2rem;
 }
 
-.modal-wrapper {
+#modal-container {
+  display: none;
   position: absolute;
-  z-index: 3; 
+  background-color: white;
+  width: 300px;
+  height: 300px;
+  transform: translate(-50%, -50%);
 }
 
-.modal {
-  background: white;
-  border: 1px solid #ccc;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  transform: translate(-50%, -50%) scale(0.5);
-  opacity: 0;
-  transition: opacity 300ms ease-in-out, transform 300ms ease-in-out;
-
+#modal-container.show {
+  display: block;
+  animation: fadein 0.5s forwards;
 }
 
-.modal.show {
-  opacity: 1;
-  transform: translate(-50%, -50%) scale(1);
+#modal-container.hide {
+  animation: fadeout 0.5s forwards;
 }
 
+@keyframes fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
 
+@keyframes fadeout {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}

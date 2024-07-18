@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Renderer2 } from '@angular/core';
 import 'zone.js';
 import { Slide } from './slide.model';
 
@@ -11,17 +11,20 @@ import { Slide } from './slide.model';
   imports: [CommonModule],
 })
 export class CustomCarouselComponent implements OnInit {
-  @Input() slidesPerView: number = 5;
+  @Input() slidesPerView: number = 6;
   @Input() slides!: Slide[];
 
   totalSlides: number = 0;
   totalSections: number = 0;
   sections: Slide[][] = [];
   currentSection: number = 0;
-
+  modalHidden: boolean = false;
   modalVisible: boolean = false;
   modalPosition: { top: number; left: number } = { top: 0, left: 0 };
   selectedSlide: Slide | null = null;
+  hideTimeout: any;
+
+  constructor(private renderer: Renderer2) {}
 
   ngOnInit() {
     this.totalSlides = this.slides.length;
@@ -46,31 +49,48 @@ export class CustomCarouselComponent implements OnInit {
     });
   }
 
-  showModal(event: MouseEvent, slide: Slide) {
+ showModal(event: MouseEvent, slide: Slide) {
     const target = event.target as HTMLElement;
     const rect = target.getBoundingClientRect();
 
+    // Clear any existing hide timeout
+    if (this.hideTimeout) {
+      clearTimeout(this.hideTimeout);
+      this.hideTimeout = null;
+    }
+
+    this.modalHidden = false;
     this.modalVisible = true;
     this.modalPosition = {
       top: rect.top + rect.height / 2,
       left: rect.left + rect.width / 2,
     };
     this.selectedSlide = slide;
-  }
 
-  hideModalIfNotHovering(event: MouseEvent) {
-    const target = event.relatedTarget as HTMLElement;
-    if (!target || !target.closest('.modal-wrapper')) {
-      this.modalPosition = {
-        top: 0,
-        left: 0
-      };
-      this.modalVisible = false;
-      this.selectedSlide = null;
+    const modalContainer = document.getElementById('modal-container');
+    if (modalContainer) {
+      this.renderer.removeClass(modalContainer, 'hide');
+      this.renderer.addClass(modalContainer, 'show');
+      this.renderer.setStyle(modalContainer, 'display', 'block');
     }
   }
 
-  stayVisible() {
-    this.modalVisible = true;
+  hideModalIfNotHovering(event: MouseEvent) {
+    const modalContainer = document.getElementById('modal-container');
+
+    if (modalContainer) {
+      this.hideTimeout = setTimeout(() => {
+        this.renderer.removeClass(modalContainer, 'show');
+        this.renderer.addClass(modalContainer, 'hide');
+
+        modalContainer.addEventListener('animationend', () => {
+          this.renderer.setStyle(modalContainer, 'display', 'none');
+          this.modalHidden = true;
+          this.selectedSlide = null;
+        }, { once: true });
+
+        this.modalVisible = false;
+      }, 100); // Adjust the delay as needed
+    }
   }
 }
