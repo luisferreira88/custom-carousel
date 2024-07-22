@@ -9,7 +9,8 @@ import 'zone.js';
   selector: 'app-root',
   standalone: true,
   template: `
-    <app-custom-carousel [slides]="slides" [slidesPerView]="4"></app-custom-carousel>
+    <app-custom-carousel [slides]="slides" [slidesPerView]="6"></app-custom-carousel>
+
   `,
   imports: [CustomCarouselComponent],
 })

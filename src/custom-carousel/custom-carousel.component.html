@@ -1,21 +1,12 @@
 <div class="custom-carousel">
-  <button
-    *ngIf="totalSections > 1"
-    class="custom-carousel-navigation-previous"
-    (click)="scrollToSection(currentSection - 1)"
-  >
+  <button *ngIf="totalSections > 1" class="custom-carousel-navigation-previous"
+    (click)="scrollToSection(currentSection - 1)">
     &#9664;
   </button>
   <div class="carousel-wrapper">
-    <div
-      *ngFor="let section of sections; let sectionIndex = index"
-      [id]="'section-' + sectionIndex"
-      class="carousel-section"
-    >
-    <div
-    *ngFor="let slide of section; let i = index"
-    class="custom-carousel-item"
-    [ngStyle]="{
+    <div *ngFor="let section of sections; let sectionIndex = index" [id]="'section-' + sectionIndex"
+      class="carousel-section">
+      <div *ngFor="let slide of section; let i = index" class="custom-carousel-item" [ngStyle]="{
       flex:
         '0 0 calc((100% / ' +
         slidesPerView +
@@ -26,32 +17,47 @@
         backgroundRepeat: 'no-repeat',
         backgroundSize: 'cover',
         backgroundPosition: 'center center'
-    }"
-    (mouseenter)="showModal($event, slide)"
-  >
+    }" (mouseenter)="showModal($event, slide)">
         Slide {{ i + sectionIndex * slidesPerView + 1 }}
       </div>
     </div>
   </div>
-  <button
-    *ngIf="totalSections > 1"
-    class="custom-carousel-navigation-next"
-    (click)="scrollToSection(currentSection + 1)"
-  >
+  <button *ngIf="totalSections > 1" class="custom-carousel-navigation-next"
+    (click)="scrollToSection(currentSection + 1)">
     &#9654;
   </button>
-  </div>
 
-
-<div id="modal-container"     
-[ngStyle]="{'top.px': modalPosition.top, 'left.px': modalPosition.left}"
-(mouseleave)="hideModalIfNotHovering($event)"
-[ngClass]="{'show': modalVisible, 'hide': modalHidden}" >
-  <div class="modal-background">
-    <div class="modal">
-      <div>I'm a Modal</div>
-      <p>Hear me roar.</p>
-      <p>{{selectedSlide? selectedSlide.title  : ''}}</p>
+  <div id="modal-container" [ngStyle]="{
+    'top.px': 0, 
+    'left.px': modalPosition.left, 
+    'width.px': modalSize.width, 
+    'height.px': modalSize.height
+  }" *ngIf="selectedSlide" (mouseleave)="hideModal($event)">
+    <div class="modal-content" [ngStyle]="{
+        display: 'grid',
+        height: '100%',
+        gridTemplateRows: modalSize.height + 'px auto'
+      }">
+      <div class="modal-content-image" [ngStyle]="
+        {
+          backgroundImage: 'url('+selectedSlide?.image+')',
+          backgroundRepeat: 'no-repeat',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center center',
+        }">
+      </div>
+      <div style="background-color: red;">
+        asd
+      </div>
     </div>
   </div>
+
 </div>
+
+
+
+
+<!--
+
+
+-->

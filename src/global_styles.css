@@ -15,4 +15,7 @@ body {
   width: 100%;
   overflow: hidden;
   background-color: #eee;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }

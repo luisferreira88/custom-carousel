@@ -1,0 +1,72 @@
+<div class="custom-carousel">
+  <button
+    *ngIf="totalSections > 1"
+    class="custom-carousel-navigation-previous"
+    (click)="scrollToSection(currentSection - 1)"
+  >
+    &#9664;
+  </button>
+  <div class="carousel-wrapper">
+    <div
+      *ngFor="let section of sections; let sectionIndex = index"
+      [id]="'section-' + sectionIndex"
+      class="carousel-section"
+    >
+    <div
+    *ngFor="let slide of section; let i = index"
+    class="custom-carousel-item"
+    [ngStyle]="{
+      flex:
+        '0 0 calc((100% / ' +
+        slidesPerView +
+        ') - ' +
+        (16 * (slidesPerView - 1)) / slidesPerView +
+        'px)',
+        background: 'url('+slide.image+')',
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center center'
+    }"
+    (mouseenter)="showModal($event, slide)"
+  >
+        Slide {{ i + sectionIndex * slidesPerView + 1 }}
+      </div>
+    </div>
+  </div>
+  <button
+    *ngIf="totalSections > 1"
+    class="custom-carousel-navigation-next"
+    (click)="scrollToSection(currentSection + 1)"
+  >
+    &#9654;
+  </button>
+  </div>
+
+
+<div id="modal-container"  
+*ngIf="selectedSlide"   
+[ngStyle]="{'top.px': modalPosition.top, 'left.px': modalPosition.left}"
+(mouseleave)="hideModalIfNotHovering($event)"
+[ngClass]="{'show': modalVisible, 'hide': modalHidden}" >
+  <div class="modal-background" style="height: 100%;">
+    <div class="modal" style="height: 100%;">
+      <div class="modal-content" style="display: grid; grid-template-rows: 1fr 1fr; height: 100%;">
+        <div  [ngStyle]="{        background: 'url('+selectedSlide?.image+')',
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center center'}">
+
+        </div>
+        <div>
+            la la al al a
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!--
+
+
+-->

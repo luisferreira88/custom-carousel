@@ -20,12 +20,11 @@ export class CustomCarouselComponent implements OnInit {
   currentSection: number = 0;
   modalHidden: boolean = false;
   modalVisible: boolean = false;
-  modalSize: { width: number; height: number } = { width: 0, height: 0 };
   modalPosition: { top: number; left: number } = { top: 0, left: 0 };
   selectedSlide: Slide | null = null;
   hideTimeout: any;
 
-  constructor(private renderer: Renderer2) { }
+  constructor(private renderer: Renderer2) {}
 
   ngOnInit() {
     this.totalSlides = this.slides.length;
@@ -51,29 +50,6 @@ export class CustomCarouselComponent implements OnInit {
   }
 
   showModal(event: MouseEvent, slide: Slide) {
-    this.selectedSlide = slide;
-    const target = event.target as HTMLElement;
-    const rect = target.getBoundingClientRect();
-    this.modalSize = {
-      width: rect.width * 1.6,
-      height: rect.height * 1.5,
-    };
-
-    this.modalPosition = {
-      top: rect.top,
-      left: rect.left
-    };
-  }
-
-  hideModal(event: MouseEvent) {
-    this.selectedSlide = null;
-  }
-
-}
-
-/* 
-
-  showModal(event: MouseEvent, slide: Slide) {
     const target = event.target as HTMLElement;
     const rect = target.getBoundingClientRect();
 
@@ -82,6 +58,8 @@ export class CustomCarouselComponent implements OnInit {
       clearTimeout(this.hideTimeout);
       this.hideTimeout = null;
     }
+
+    
 
     this.modalHidden = false;
     this.modalVisible = true;
@@ -122,5 +100,4 @@ export class CustomCarouselComponent implements OnInit {
       }, 100); // Adjust the delay as needed
     }
   }
-
-*/
+}
