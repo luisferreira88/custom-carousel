@@ -32,7 +32,7 @@
     'left.px': modalPosition.left, 
     'width.px': modalSize.width, 
     'height.px': modalSize.height
-  }" *ngIf="selectedSlide" (mouseleave)="hideModal($event)">
+  }" (mouseleave)="hideModal($event)">
     <div class="modal-content" [ngStyle]="{
         display: 'grid',
         height: '100%',
@@ -47,7 +47,7 @@
         }">
       </div>
       <div style="background-color: red;">
-        asd
+        {{selectedSlide?.title}}
       </div>
     </div>
   </div>

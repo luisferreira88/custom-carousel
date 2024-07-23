@@ -52,6 +52,16 @@ export class CustomCarouselComponent implements OnInit {
 
   showModal(event: MouseEvent, slide: Slide) {
     this.selectedSlide = slide;
+    const modalContainer = document.getElementById('modal-container');
+    setTimeout(() => {
+      console.log("Delayed for 1 second.");
+      if (modalContainer) {
+        this.renderer.removeClass(modalContainer, 'hide');
+        this.renderer.addClass(modalContainer, 'show');
+        this.renderer.setStyle(modalContainer, 'display', 'block');
+      }
+    }, 300);
+
     const target = event.target as HTMLElement;
     const rect = target.getBoundingClientRect();
     this.modalSize = {
@@ -67,6 +77,12 @@ export class CustomCarouselComponent implements OnInit {
 
   hideModal(event: MouseEvent) {
     this.selectedSlide = null;
+    const modalContainer = document.getElementById('modal-container');
+    if (modalContainer) {
+      this.renderer.removeClass(modalContainer, 'show');
+      this.renderer.addClass(modalContainer, 'hide');
+      this.renderer.setStyle(modalContainer, 'display', 'none');
+    }
   }
 
 }

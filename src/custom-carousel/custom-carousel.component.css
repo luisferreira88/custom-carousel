@@ -75,7 +75,7 @@
 }
 
 #modal-container {
-  display: block;
+  display: none;
   position: absolute;
   background-color: white;
   transition:  transform .3s;
@@ -83,15 +83,12 @@
 }
 
 #modal-container.show {
-  display: block;
-  transform: translate(0, 0);
   animation: fadein 0.3s forwards;
 }
 
 #modal-container.hide {
-
+  transition-delay: 300ms;
   animation: fadeout 0.3s forwards;
-
 }
 
 @keyframes fadein {
@@ -104,15 +101,12 @@
   }
 }
 
-/*
 @keyframes fadeout {
   from {
     opacity: 1;
-    transform: translate(-50%, -50%);
   }
   to {
     opacity: 0;
-      transform: translate(-50%, -50%);
   }
 
-}  */
+}  
