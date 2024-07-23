@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
-import { CustomCarouselComponent } from './custom-carousel/custom-carousel.component';
-import { Slide } from './custom-carousel/slide.model';
-
+import { provideAnimations } from '@angular/platform-browser/animations';
 import 'zone.js';
+
+import { Slide } from './custom-carousel/slide.model';
+import { CustomCarouselComponent } from './custom-carousel/custom-carousel.component';
 
 @Component({
   selector: 'app-root',
@@ -111,4 +112,6 @@ export class App {
   ];
 }
 
-bootstrapApplication(App);
+bootstrapApplication(App, {
+  providers: [provideAnimations()]
+});

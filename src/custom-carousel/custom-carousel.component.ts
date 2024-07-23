@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit, Renderer2 } from '@angular/core';
-import 'zone.js';
+import { Component, Input, OnInit } from '@angular/core';
 import { Slide } from './slide.model';
+import 'zone.js';
+import { trigger, state, style, transition, animate } from '@angular/animations';
 
 @Component({
   selector: 'app-custom-carousel',
@@ -9,6 +10,25 @@ import { Slide } from './slide.model';
   templateUrl: './custom-carousel.component.html',
   styleUrls: ['./custom-carousel.component.css'],
   imports: [CommonModule],
+  animations: [
+    trigger('modalState', [
+      state('hidden', style({
+        opacity: 0,
+        display: 'none',
+      })),
+      state('visible', style({
+        opacity: 1,
+        display: 'block',
+      })),
+      transition('hidden => visible', [
+        style({ display: 'block' }),
+        animate('300ms ease-in')
+      ]),
+      transition('visible => hidden', [
+        animate('300ms ease-out', style({ opacity: 0 }))
+      ])
+    ])
+  ]
 })
 export class CustomCarouselComponent implements OnInit {
   @Input() slidesPerView: number = 6;
@@ -18,14 +38,14 @@ export class CustomCarouselComponent implements OnInit {
   totalSections: number = 0;
   sections: Slide[][] = [];
   currentSection: number = 0;
-  modalHidden: boolean = false;
-  modalVisible: boolean = false;
-  modalSize: { width: number; height: number } = { width: 0, height: 0 };
-  modalPosition: { top: number; left: number } = { top: 0, left: 0 };
   selectedSlide: Slide | null = null;
-  hideTimeout: any;
-
-  constructor(private renderer: Renderer2) { }
+  modalStyles: { width: string; height: string; top: string; left: string } = {
+    width: '0',
+    height: '0',
+    top: '0',
+    left: '0',
+  };
+  modalState: 'hidden' | 'visible' = 'hidden';
 
   ngOnInit() {
     this.totalSlides = this.slides.length;
@@ -51,92 +71,32 @@ export class CustomCarouselComponent implements OnInit {
   }
 
   showModal(event: MouseEvent, slide: Slide) {
-    this.selectedSlide = slide;
-    const modalContainer = document.getElementById('modal-container');
+
+
+
     setTimeout(() => {
-      console.log("Delayed for 1 second.");
-      if (modalContainer) {
-        this.renderer.removeClass(modalContainer, 'hide');
-        this.renderer.addClass(modalContainer, 'show');
-        this.renderer.setStyle(modalContainer, 'display', 'block');
-      }
-    }, 300);
-
-    const target = event.target as HTMLElement;
-    const rect = target.getBoundingClientRect();
-    this.modalSize = {
-      width: rect.width * 1.6,
-      height: rect.height * 1.5,
-    };
-
-    this.modalPosition = {
-      top: rect.top,
-      left: rect.left
-    };
+      this.selectedSlide = slide;
+      const target = event.target as HTMLElement;
+      const rect = target.getBoundingClientRect();
+      const modalWidth = rect.width * 1.6;
+      const modalHeight = rect.height * 1.5;
+      const top = rect.top + window.scrollY + rect.height / 2 - modalHeight / 2;
+      const left = rect.left + window.scrollX + rect.width / 2 - modalWidth / 2;
+      
+      this.modalStyles = {
+        width: `${modalWidth}px`,
+        height: `${modalHeight}px`,
+        top: `${top}px`,
+        left: `${left}px`,
+      };
+      this.modalState = 'visible';
+    }, 300); // Wait for animation to complete
   }
 
-  hideModal(event: MouseEvent) {
-    this.selectedSlide = null;
-    const modalContainer = document.getElementById('modal-container');
-    if (modalContainer) {
-      this.renderer.removeClass(modalContainer, 'show');
-      this.renderer.addClass(modalContainer, 'hide');
-      this.renderer.setStyle(modalContainer, 'display', 'none');
-    }
+  hideModal() {
+    this.modalState = 'hidden';
+    setTimeout(() => {
+      this.selectedSlide = null;
+    }, 300); // Wait for animation to complete
   }
-
 }
-
-/* 
-
-  showModal(event: MouseEvent, slide: Slide) {
-    const target = event.target as HTMLElement;
-    const rect = target.getBoundingClientRect();
-
-    // Clear any existing hide timeout
-    if (this.hideTimeout) {
-      clearTimeout(this.hideTimeout);
-      this.hideTimeout = null;
-    }
-
-    this.modalHidden = false;
-    this.modalVisible = true;
-    this.modalPosition = {
-      top: rect.top + rect.height / 2,
-      left: rect.left + rect.width / 2,
-    };
-    this.selectedSlide = slide;
-
-    const modalContainer = document.getElementById('modal-container');
-    if (modalContainer) {
-      this.renderer.removeClass(modalContainer, 'hide');
-      this.renderer.addClass(modalContainer, 'show');
-      this.renderer.setStyle(modalContainer, 'display', 'block');
-    }
-  }
-
-  hideModalIfNotHovering(event: MouseEvent) {
-    const modalContainer = document.getElementById('modal-container');
-    const relatedTarget = event.relatedTarget as HTMLElement;
-
-    if (modalContainer && (!relatedTarget || !modalContainer.contains(relatedTarget))) {
-      this.hideTimeout = setTimeout(() => {
-        this.renderer.removeClass(modalContainer, 'show');
-        this.renderer.addClass(modalContainer, 'hide');
-
-        modalContainer.addEventListener(
-          'animationend',
-          () => {
-            this.renderer.setStyle(modalContainer, 'display', 'none');
-            this.modalHidden = true;
-            this.selectedSlide = null;
-          },
-          { once: true }
-        );
-
-        this.modalVisible = false;
-      }, 100); // Adjust the delay as needed
-    }
-  }
-
-*/

@@ -1,4 +1,4 @@
-<div class="custom-carousel">
+<div class="custom-carousel" >
   <button *ngIf="totalSections > 1" class="custom-carousel-navigation-previous"
     (click)="scrollToSection(currentSection - 1)">
     &#9664;
@@ -26,24 +26,27 @@
     &#9654;
   </button>
 
-
-
-  <div id="modal-container" [@modalState]="modalState" [ngStyle]="modalStyles" (mouseleave)="hideModal()">
+  <div id="modal-container" [ngStyle]="{
+    'top.px': 0, 
+    'left.px': modalPosition.left, 
+    'width.px': modalSize.width, 
+    'height.px': modalSize.height
+  }" (mouseleave)="hideModal($event)">
     <div class="modal-content" [ngStyle]="{
-  display: 'grid',
-  height: '100%',
-  'grid-template-rows': modalStyles.height + ' auto'
-}">
+        display: 'grid',
+        height: '100%',
+        gridTemplateRows: modalSize.height + 'px auto'
+      }">
       <div class="modal-content-image" [ngStyle]="
-  {
-    backgroundImage: 'url('+selectedSlide?.image+')',
-    backgroundRepeat: 'no-repeat',
-    backgroundSize: 'cover',
-    backgroundPosition: 'center center',
-  }">
+        {
+          backgroundImage: 'url('+selectedSlide?.image+')',
+          backgroundRepeat: 'no-repeat',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center center',
+        }">
       </div>
       <div style="background-color: red;">
-        {{modalStyles.height}}
+        {{selectedSlide?.title}}
       </div>
     </div>
   </div>
